@@ -99,6 +99,10 @@ func (b *bgpServer) GetRIBIn(peerIP bnet.IP, afi uint16, safi uint8) *adjRIBIn.A
 		return nil
 	}
 
+	if f.adjRIBIn == nil {
+		return nil
+	}
+
 	return f.adjRIBIn.(*adjRIBIn.AdjRIBIn)
 }
 

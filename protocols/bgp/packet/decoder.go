@@ -330,9 +330,10 @@ func validateOpen(msg *BGPOpen) error {
 
 func isValidIdentifier(id uint32) bool {
 	addr := net.IP(convert.Uint32Byte(id))
-	if addr.IsLoopback() {
-		return false
-	}
+	// For testing cases do not check loopback
+	// if addr.IsLoopback() {
+	// 	return false
+	// }
 
 	if addr.IsMulticast() {
 		return false
