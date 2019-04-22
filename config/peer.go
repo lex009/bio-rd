@@ -17,6 +17,7 @@ type Peer struct {
 	HoldTime                   time.Duration
 	LocalAddress               bnet.IP
 	PeerAddress                bnet.IP
+	RemotePort                 int
 	LocalAS                    uint32
 	PeerAS                     uint32
 	Passive                    bool

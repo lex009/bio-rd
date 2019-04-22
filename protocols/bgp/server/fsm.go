@@ -224,7 +224,12 @@ func (fsm *FSM) tcpConnector(ctx context.Context) {
 	for {
 		select {
 		case <-fsm.initiateCon:
-			c, err := net.DialTCP("tcp", &net.TCPAddr{IP: fsm.local}, &net.TCPAddr{IP: fsm.peer.addr.ToNetIP(), Port: BGPPORT})
+			port := fsm.peer.remotePort
+			if port == 0 {
+				port = BGPPORT
+			}
+
+			c, err := net.DialTCP("tcp", &net.TCPAddr{IP: fsm.local}, &net.TCPAddr{IP: fsm.peer.addr.ToNetIP(), Port: port})
 			if err != nil {
 				select {
 				case fsm.conErrCh <- err:

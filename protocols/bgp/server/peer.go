@@ -2,9 +2,10 @@ package server
 
 import (
 	"fmt"
-	"github.com/bio-routing/bio-rd/routingtable/vrf"
 	"sync"
 	"time"
+
+	"github.com/bio-routing/bio-rd/routingtable/vrf"
 
 	"github.com/bio-routing/bio-rd/config"
 	bnet "github.com/bio-routing/bio-rd/net"
@@ -16,12 +17,13 @@ import (
 )
 
 type peer struct {
-	server    *bgpServer
-	addr      bnet.IP
-	localAddr bnet.IP
-	passive   bool
-	peerASN   uint32
-	localASN  uint32
+	server     *bgpServer
+	addr       bnet.IP
+	localAddr  bnet.IP
+	remotePort int
+	passive    bool
+	peerASN    uint32
+	localASN   uint32
 
 	// guarded by fsmsMu
 	fsms   []*FSM
@@ -155,6 +157,7 @@ func newPeer(c config.Peer, server *bgpServer) (*peer, error) {
 	p := &peer{
 		server:               server,
 		addr:                 c.PeerAddress,
+		remotePort:           c.RemotePort,
 		passive:              c.Passive,
 		peerASN:              c.PeerAS,
 		localASN:             c.LocalAS,
